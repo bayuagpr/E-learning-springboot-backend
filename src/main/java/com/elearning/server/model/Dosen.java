@@ -3,6 +3,9 @@ package com.elearning.server.model;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import java.io.Serializable;
 
@@ -32,6 +35,7 @@ public class Dosen implements Serializable{
 	//bi-directional one-to-one association to User
 	@OneToOne
 	@JoinColumn(name="nidn")
+	@JsonIgnore
 	private User user;
 
 	//bi-directional many-to-one association to Kelas

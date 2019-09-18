@@ -2,6 +2,7 @@ package com.elearning.server.service;
 
 import java.util.List;
 
+import com.elearning.server.model.Materi;
 import com.elearning.server.model.Soal;
 import com.elearning.server.repository.SoalRepository;
 import com.elearning.server.service.manager.SoalManager;
@@ -41,5 +42,9 @@ public class SoalService implements SoalManager{
 	public Soal pilihSoal(String id) {
 		// TODO Auto-generated method stub
 		return soalRepository.getOne(id);
+	}
+
+	public Materi pilihMateri(String id) {
+		return null;
 	}
 }

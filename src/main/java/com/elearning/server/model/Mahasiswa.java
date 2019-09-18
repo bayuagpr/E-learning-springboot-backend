@@ -3,6 +3,9 @@ package com.elearning.server.model;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import lombok.Data;
 
@@ -39,5 +42,6 @@ public class Mahasiswa implements Serializable{
 	//bi-directional one-to-one association to User
 	@OneToOne
 	@JoinColumn(name="nim")
+	@JsonIgnore
 	private User user;
 }
