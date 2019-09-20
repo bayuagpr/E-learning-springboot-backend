@@ -2,12 +2,20 @@ package com.elearning.server.model;
 
 import java.util.Date;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import org.springframework.data.annotation.LastModifiedDate;
+
 import lombok.Data;
 import java.io.Serializable;
 
 @Data
 @Entity(name = "com.elearning.server.model.Hasil")
 @Table(name = "hasil")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Hasil.class)
 public class Hasil implements Serializable{
   private static final long serialVersionUID = 1L;
 
@@ -22,6 +30,13 @@ public class Hasil implements Serializable{
   private String nilai;
   @Column(name = "komentar", nullable = true)
   private String komentar;
+  @Column(name = "status", nullable = true)
+  @Enumerated(EnumType.STRING)
+  private StatusHasil status;
+//  @LastModifiedDate
+  @Column(name = "last_modified", nullable = true)
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date lastModified;
  //bi-directional many-to-one association to Mahasiswa
  @ManyToOne
  @JoinColumn(name="id_mahasiswa")

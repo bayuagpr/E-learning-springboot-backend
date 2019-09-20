@@ -4,7 +4,10 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 import java.io.Serializable;
@@ -12,6 +15,7 @@ import java.io.Serializable;
 @Data
 @Entity(name = "com.elearning.server.model.Dosen")
 @Table(name = "dosen")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "nidn", scope = Dosen.class)
 public class Dosen implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +44,8 @@ public class Dosen implements Serializable{
 
 	//bi-directional many-to-one association to Kelas
 	@OneToMany(mappedBy="dosen")
-  private List<Kelas> kelas;
+	@JsonBackReference(value="kelasDosen")
+  	private List<Kelas> kelas;
 
 
 

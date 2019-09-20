@@ -5,6 +5,7 @@ import com.elearning.server.service.MataKuliahService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -43,10 +44,21 @@ public class MataKuliahController {
       return ResponseEntity.ok().body(entities);
   }
 
+  @GetMapping("/tampilkan/{id}")
+  public ResponseEntity<MataKuliah> findOne(@PathVariable("id") String id){
+      return ResponseEntity.ok().body(restService.pilihMataKuliah(id));
+  }
+
   @PostMapping
   @ResponseBody
   public ResponseEntity<MataKuliah> create(@RequestBody MataKuliah entity ){
-
+    if(entity.getId()==null){
+      UUID uuid = UUID.randomUUID();
+      String randomUUIDString = uuid.toString();
+      String pre = "MK";
+      String id = pre.concat(randomUUIDString);
+      entity.setId(id);
+    }
       restService.simpanMataKuliah(entity);
       return ResponseEntity.ok().body(entity);
   }

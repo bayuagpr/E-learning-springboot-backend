@@ -5,6 +5,7 @@ import com.elearning.server.service.JurusanService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -44,10 +45,21 @@ public class JurusanController {
       return ResponseEntity.ok().body(entities);
   }
 
+  @GetMapping("/tampilkan/{id}")
+  public ResponseEntity<Jurusan> findOne(@PathVariable("id") String id){
+      return ResponseEntity.ok().body(restService.pilihJurusan(id));
+  }
+
   @PostMapping
   @ResponseBody
   public ResponseEntity<Jurusan> create(@RequestBody Jurusan entity ){
-
+    if(entity.getId()==null){
+      UUID uuid = UUID.randomUUID();
+      String randomUUIDString = uuid.toString();
+      String pre = "JUR";
+      String id = pre.concat(randomUUIDString);
+      entity.setId(id);
+    }
       restService.simpanJurusan(entity);
       return ResponseEntity.ok().body(entity);
   }

@@ -5,6 +5,7 @@ import com.elearning.server.service.KelasService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -43,10 +44,26 @@ public class KelasController {
       return ResponseEntity.ok().body(entities);
   }
 
+  @GetMapping("/tampilkan/{id}")
+  public ResponseEntity<Kelas> findOne(@PathVariable("id") String id){
+      return ResponseEntity.ok().body(restService.pilihKelas(id));
+  }
+
+  @GetMapping("/tampilkan/{nama}")
+  public ResponseEntity<Kelas> findKelas(@PathVariable("nama") String nama){
+      return ResponseEntity.ok().body(restService.cariKelas(nama));
+  }
+
   @PostMapping
   @ResponseBody
   public ResponseEntity<Kelas> create(@RequestBody Kelas entity ){
-
+    if(entity.getId()==null){
+      UUID uuid = UUID.randomUUID();
+      String randomUUIDString = uuid.toString();
+      String pre = "KEL";
+      String id = pre.concat(randomUUIDString);
+      entity.setId(id);
+    }
       restService.simpanKelas(entity);
       return ResponseEntity.ok().body(entity);
   }

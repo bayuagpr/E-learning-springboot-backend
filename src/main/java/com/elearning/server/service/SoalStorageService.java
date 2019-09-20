@@ -13,17 +13,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-import com.elearning.server.property.FileStorageProperties;
+import com.elearning.server.property.SoalStorageProperties;
 import com.elearning.server.exception.MyFileNotFoundException;
 import com.elearning.server.exception.FileStorageException;
 
 @Service
-public class FileStorageService {
+public class SoalStorageService {
 
     private final Path fileStorageLocation;
 
     @Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties) {
+    public SoalStorageService(SoalStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
 

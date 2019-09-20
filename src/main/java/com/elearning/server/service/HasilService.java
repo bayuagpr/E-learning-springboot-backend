@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.elearning.server.model.Hasil;
 import com.elearning.server.repository.HasilRepository;
+import com.elearning.server.repository.SoalRepository;
 import com.elearning.server.service.manager.HasilManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class HasilService implements HasilManager{
 
 	private HasilRepository hasilRepository;
+	private SoalRepository soalRepository;
 
 	@Autowired
-	public HasilService(HasilRepository hasilRepository) {
+	public HasilService(HasilRepository hasilRepository, SoalRepository soalRepository) {
 		this.hasilRepository = hasilRepository;
+		this.soalRepository = soalRepository;
 	}
 
 

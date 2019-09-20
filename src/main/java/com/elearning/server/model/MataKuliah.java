@@ -2,6 +2,11 @@ package com.elearning.server.model;
 
 import java.util.Date;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.io.Serializable;
 import lombok.Data;
 import java.util.List;
@@ -9,6 +14,7 @@ import java.util.List;
 @Data
 @Entity(name = "com.elearning.server.model.MataKuliah")
 @Table(name = "mata_kuliah")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = MataKuliah.class)
 public class MataKuliah implements Serializable{
   private static final long serialVersionUID = 1L;
 
@@ -20,10 +26,13 @@ public class MataKuliah implements Serializable{
   @Column(name = "deskripsi", nullable = true)
   private String deskripsi;
   @Column(name = "tipe", nullable = true)
-  private String tipe;
+  @Enumerated(EnumType.STRING)
+  private TipeMataKuliah tipe;
   @Column(name = "term", nullable = true)
-  private String term;
+  @Enumerated(EnumType.STRING)
+  private TermMataKuliah term;
   //bi-directional many-to-one association to Kela
-	@OneToMany(mappedBy="mataKuliah")
+  @OneToMany(mappedBy="mataKuliah")
+  @JsonBackReference(value="matkulKelas")
 	private List<Kelas> kelas;
 }

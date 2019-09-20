@@ -2,6 +2,11 @@ package com.elearning.server.model;
 
 import java.util.Date;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
 import java.util.List;
 import java.io.Serializable;
@@ -9,6 +14,7 @@ import java.io.Serializable;
 @Data
 @Entity(name = "com.elearning.server.model.Enrollment")
 @Table(name = "enrollment")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Enrollment.class)
 public class Enrollment implements Serializable{
   private static final long serialVersionUID = 1L;
   
@@ -26,4 +32,9 @@ public class Enrollment implements Serializable{
  @ManyToOne
  @JoinColumn(name="id_mahasiswa")
  private Mahasiswa mahasiswa;
+
+ public boolean getDisetujui() {
+  // TODO Auto-generated method stub
+  return disetujui;
+}
 }

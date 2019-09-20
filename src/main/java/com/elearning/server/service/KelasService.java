@@ -42,4 +42,10 @@ public class KelasService implements KelasManager{
 		// TODO Auto-generated method stub
 		return kelasRepository.getOne(id);
 	}
+
+	@Override
+	public Kelas cariKelas(String namaKelas) {
+		// TODO Auto-generated method stub
+		return kelasRepository.findByNama(namaKelas);
+	}
 }

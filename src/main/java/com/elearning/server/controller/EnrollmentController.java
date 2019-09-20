@@ -1,7 +1,7 @@
 package com.elearning.server.controller;
 
-import com.elearning.server.model.Fakultas;
-import com.elearning.server.service.FakultasService;
+import com.elearning.server.model.Enrollment;
+import com.elearning.server.service.EnrollmentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,47 +28,46 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v1/fakultas")
-public class FakultasController {
+@RequestMapping("/api/v1/Enrollment")
+public class EnrollmentController {
   
-  private FakultasService restService;
+  private EnrollmentService restService;
 
     @Autowired
-    public FakultasController(FakultasService restService) {
+    public EnrollmentController(EnrollmentService restService) {
         this.restService = restService;
     }
     
   @GetMapping("/tampilkan")
-  public ResponseEntity<List< Fakultas >> findAll(){
-      List< Fakultas > entities = restService.semuaFakultas();
+  public ResponseEntity<List< Enrollment >> findAll(){
+      List< Enrollment > entities = restService.semuaEnrollment();
       return ResponseEntity.ok().body(entities);
   }
 
   @GetMapping("/tampilkan/{id}")
-  public ResponseEntity<Fakultas> findOne(@PathVariable("id") String id){
-      return ResponseEntity.ok().body(restService.pilihFakultas(id));
+  public ResponseEntity<Enrollment> findOne(@PathVariable("id") String id){
+      return ResponseEntity.ok().body(restService.pilihEnrollment(id));
   }
 
   @PostMapping
   @ResponseBody
-  public ResponseEntity<Fakultas> create(@RequestBody Fakultas entity ){
+  public ResponseEntity<Enrollment> create(@RequestBody Enrollment entity ){
     if(entity.getId()==null){
       UUID uuid = UUID.randomUUID();
       String randomUUIDString = uuid.toString();
-      String pre = "FAK";
+      String pre = "ENR";
       String id = pre.concat(randomUUIDString);
       entity.setId(id);
     }
-      restService.simpanFakultas(entity);
+      restService.simpanEnrollment(entity);
       return ResponseEntity.ok().body(entity);
   }
 
   @PutMapping("/renewal/{id}")
-  public ResponseEntity<?> updateOne(@PathVariable("id") String id, @Valid @RequestBody  Fakultas entity ){
-    Fakultas r =restService.pilihFakultas(id);
-    r.setNama(entity.getNama());
-    r.setDeskripsi(entity.getDeskripsi());
-    restService.simpanFakultas(r);
+  public ResponseEntity<?> updateOne(@PathVariable("id") String id, @Valid @RequestBody  Enrollment entity ){
+    Enrollment r =restService.pilihEnrollment(id);
+    r.setDisetujui(entity.getDisetujui());
+    restService.simpanEnrollment(r);
       return ResponseEntity.ok().body("Target terbaru pada id "+ id);
   }
 

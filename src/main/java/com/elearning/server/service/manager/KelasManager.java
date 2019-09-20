@@ -10,4 +10,5 @@ public interface KelasManager {
 
     Kelas simpanKelas(Kelas ds);
     Kelas pilihKelas(String id);
+    Kelas cariKelas(String namaKelas);
 }

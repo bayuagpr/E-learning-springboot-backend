@@ -44,7 +44,5 @@ public class SoalService implements SoalManager{
 		return soalRepository.getOne(id);
 	}
 
-	public Materi pilihMateri(String id) {
-		return null;
-	}
+	
 }

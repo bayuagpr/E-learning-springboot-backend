@@ -4,7 +4,11 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.io.Serializable;
 import lombok.Data;
@@ -12,6 +16,7 @@ import lombok.Data;
 @Data
 @Entity(name = "com.elearning.server.model.Mahasiswa")
 @Table(name = "mahasiswa")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "nim", scope = Mahasiswa.class)
 public class Mahasiswa implements Serializable{
 
 
@@ -28,10 +33,12 @@ public class Mahasiswa implements Serializable{
   private String tempat_lahir;
   //bi-directional many-to-one association to Enrollment
 	@OneToMany(mappedBy="mahasiswa")
+	@JsonBackReference(value="enrollMahasiswa")	
 	private List<Enrollment> enrollments;
 
 	//bi-directional many-to-one association to Hasil
 	@OneToMany(mappedBy="mahasiswa")
+	@JsonBackReference(value="hasilMahasiswa")
 	private List<Hasil> hasils;
 
 	//bi-directional many-to-one association to Jurusan

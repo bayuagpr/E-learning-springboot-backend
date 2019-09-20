@@ -3,11 +3,17 @@ package com.elearning.server.model;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.Data;
 
 @Data
 @Entity(name = "com.elearning.server.model.User")
 @Table(name = "user")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = User.class)
 public class User implements Serializable{
   private static final long serialVersionUID = 1L;
   
@@ -28,6 +34,6 @@ public class User implements Serializable{
 
 	//bi-directional many-to-one association to Role
 	@ManyToOne
-	@JoinColumn(name="id_role")
+  @JoinColumn(name="id_role")
 	private Role role;
 }

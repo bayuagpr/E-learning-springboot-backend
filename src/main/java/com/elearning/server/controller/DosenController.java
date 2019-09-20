@@ -5,6 +5,7 @@ import com.elearning.server.service.DosenService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -60,6 +61,11 @@ public class DosenController {
     r.setTempat_lahir(entity.getTempat_lahir());
     restService.simpanDosen(r);
       return ResponseEntity.ok().body("Target terbaru pada id "+ id);
+  }
+
+  @GetMapping("/tampilkan/{id}")
+  public ResponseEntity<Dosen> findOne(@PathVariable("id") String id){
+      return ResponseEntity.ok().body(restService.pilihDosen(id));
   }
 
   // @DeleteMapping("/hapus/{id}")

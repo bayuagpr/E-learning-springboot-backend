@@ -43,6 +43,11 @@ public class MahasiswaController {
       return ResponseEntity.ok().body(entities);
   }
 
+  @GetMapping("/tampilkan/{id}")
+  public ResponseEntity<Mahasiswa> findOne(@PathVariable("id") String id){
+      return ResponseEntity.ok().body(restService.pilihMahasiswa(id));
+  }
+
   @PostMapping
   @ResponseBody
   public ResponseEntity<Mahasiswa> create(@RequestBody Mahasiswa entity ){

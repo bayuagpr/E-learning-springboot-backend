@@ -2,13 +2,14 @@ package com.elearning.server.controller;
 
 import com.elearning.server.model.Materi;
 import com.elearning.server.payload.UploadFileResponse;
-import com.elearning.server.service.FileStorageService;
 import com.elearning.server.service.MateriService;
+import com.elearning.server.service.MateriStorageService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,11 +44,11 @@ public class MateriController {
   
 
     
-  private FileStorageService fileStorageService;
+  private MateriStorageService fileStorageService;
   private MateriService restService;
 
     @Autowired
-    public MateriController(MateriService restService, FileStorageService fileStorageService) {
+    public MateriController(MateriService restService, MateriStorageService fileStorageService) {
         this.restService = restService;
         this.fileStorageService = fileStorageService;
     }
@@ -58,10 +59,21 @@ public class MateriController {
       return ResponseEntity.ok().body(entities);
   }
 
+  @GetMapping("/tampilkan/{id}")
+  public ResponseEntity<Materi> findOne(@PathVariable("id") String id){
+      return ResponseEntity.ok().body(restService.pilihMateri(id));
+  }
+
   @PostMapping
   @ResponseBody
   public ResponseEntity<Materi> create(@RequestBody Materi entity ){
-
+    if(entity.getId()==null){
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+        String pre = "MTR";
+        String id = pre.concat(randomUUIDString);
+        entity.setId(id);
+      }
       restService.simpanMateri(entity);
       return ResponseEntity.ok().body(entity);
   }
@@ -76,17 +88,16 @@ public class MateriController {
       return ResponseEntity.ok().body("Target terbaru pada id "+ id);
   }
 
-  @PostMapping("/uploadFile/{id}")
-  public  UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file,@PathVariable("id") String id) {
+  @PostMapping("/uploadMateri")
+  public  UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
       String fileName = fileStorageService.storeFile(file);
 
       String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-              .path("/api/v1/materi/downloadFile/")
+              .path("/api/v1/materi/downloadMateri/")
               .path(fileName)
               .toUriString();
               
-              Materi r =restService.pilihMateri(id);
-              r.setAttachment(fileDownloadUri);
+           
               
 
 
@@ -94,15 +105,15 @@ public class MateriController {
               file.getContentType(), file.getSize());
   }
 
-  // @PostMapping("/uploadMultipleFiles")
-  // public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-  //     return Arrays.asList(files)
-  //             .stream()
-  //             .map(file -> uploadFile(file))
-  //             .collect(Collectors.toList());
-  // }
+  @PostMapping("/uploadMultipleMateri")
+  public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+      return Arrays.asList(files)
+              .stream()
+              .map(file -> uploadFile(file))
+              .collect(Collectors.toList());
+  }
 
-  @GetMapping("/downloadFile/{fileName:.+}")
+  @GetMapping("/downloadMateri/{fileName:.+}")
   public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
       // Load file as Resource
       Resource resource = fileStorageService.loadFileAsResource(fileName);

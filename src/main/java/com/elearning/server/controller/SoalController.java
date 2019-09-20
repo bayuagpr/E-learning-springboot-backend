@@ -3,12 +3,15 @@ package com.elearning.server.controller;
 import com.elearning.server.model.Materi;
 import com.elearning.server.model.Soal;
 import com.elearning.server.payload.UploadFileResponse;
-import com.elearning.server.service.FileStorageService;
 import com.elearning.server.service.SoalService;
+import com.elearning.server.service.SoalStorageService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -42,10 +45,10 @@ public class SoalController {
   
   
   private SoalService restService;
-  private FileStorageService fileStorageService;
+  private SoalStorageService fileStorageService;
 
   @Autowired
-  public SoalController(SoalService restService, FileStorageService fileStorageService) {
+  public SoalController(SoalService restService, SoalStorageService fileStorageService) {
       this.restService = restService;
       this.fileStorageService = fileStorageService;
   }
@@ -56,10 +59,21 @@ public class SoalController {
       return ResponseEntity.ok().body(entities);
   }
 
+  @GetMapping("/tampilkan/{id}")
+  public ResponseEntity<Soal> findOne(@PathVariable("id") String id){
+      return ResponseEntity.ok().body(restService.pilihSoal(id));
+  }
+
   @PostMapping
   @ResponseBody
   public ResponseEntity<Soal> create(@RequestBody Soal entity ){
-
+    if(entity.getId()==null){
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+        String pre = "SOA";
+        String id = pre.concat(randomUUIDString);
+        entity.setId(id);
+      }
       restService.simpanSoal(entity);
       return ResponseEntity.ok().body(entity);
   }
@@ -76,17 +90,14 @@ public class SoalController {
       return ResponseEntity.ok().body("Target terbaru pada id "+ id);
   }
 
-  @PostMapping("/uploadFile/{id}")
-  public  UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file,@PathVariable("id") String id) {
+  @PostMapping("/uploadSoal")
+  public  UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
       String fileName = fileStorageService.storeFile(file);
 
       String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-              .path("/api/v1/materi/downloadFile/")
+              .path("/api/v1/materi/downloadSoal/")
               .path(fileName)
               .toUriString();
-              
-              Materi r =restService.pilihMateri(id);
-              r.setAttachment(fileDownloadUri);
               
 
 
@@ -94,15 +105,15 @@ public class SoalController {
               file.getContentType(), file.getSize());
   }
 
-  // @PostMapping("/uploadMultipleFiles")
-  // public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-  //     return Arrays.asList(files)
-  //             .stream()
-  //             .map(file -> uploadFile(file))
-  //             .collect(Collectors.toList());
-  // }
+  @PostMapping("/uploadMultipleSoal")
+  public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+      return Arrays.asList(files)
+              .stream()
+              .map(file -> uploadFile(file))
+              .collect(Collectors.toList());
+  }
 
-  @GetMapping("/downloadFile/{fileName:.+}")
+  @GetMapping("/downloadSoal/{fileName:.+}")
   public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
       // Load file as Resource
       Resource resource = fileStorageService.loadFileAsResource(fileName);
