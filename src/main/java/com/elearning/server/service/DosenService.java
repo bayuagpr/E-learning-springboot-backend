@@ -7,6 +7,8 @@ import com.elearning.server.repository.DosenRepository;
 import com.elearning.server.service.manager.DosenManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,8 @@ public class DosenService implements DosenManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Dosen> semuaDosen() {
-		return dosenRepository.findAll();
+	public Page<Dosen> semuaDosen(Pageable pageable) {
+		return dosenRepository.findAll(pageable);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -40,7 +42,13 @@ public class DosenService implements DosenManager{
 	@Override
 	public Dosen pilihDosen(String id) {
 		// TODO Auto-generated method stub
-		return dosenRepository.getOne(id);
+		return dosenRepository.findById(id).get();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	@Override
+	public void hapusDosen(String id){
+		dosenRepository.deleteById(id);
 	}
 
 }

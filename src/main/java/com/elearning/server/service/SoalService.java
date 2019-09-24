@@ -8,6 +8,8 @@ import com.elearning.server.repository.SoalRepository;
 import com.elearning.server.service.manager.SoalManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +29,8 @@ public class SoalService implements SoalManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Soal> semuaSoal() {
-		return soalRepository.findAll();
+	public Page<Soal> semuaSoal(Pageable paging) {
+		return soalRepository.findAll(paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -41,7 +43,15 @@ public class SoalService implements SoalManager{
 	@Override
 	public Soal pilihSoal(String id) {
 		// TODO Auto-generated method stub
-		return soalRepository.getOne(id);
+		return soalRepository.findById(id).get();
+	}
+
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void hapusSoal(String id) {
+		// TODO Auto-generated method stub
+		soalRepository.deleteById(id);
 	}
 
 	

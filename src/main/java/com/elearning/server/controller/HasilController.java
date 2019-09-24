@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -57,13 +60,12 @@ public class HasilController {
     }
     
   @GetMapping("/tampilkan")
-  public ResponseEntity<List< Hasil >> findAll(){
-      List< Hasil > entities = restService.semuaHasil();
-      return ResponseEntity.ok().body(entities);
+  public ResponseEntity<Page< Hasil >> findAll(Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaHasil(paging));
   }
 
-  @GetMapping("/tampilkan/{id}")
-  public ResponseEntity<Hasil> findOne(@PathVariable("id") String id){
+  @GetMapping("/pilih")
+  public ResponseEntity<Hasil> findOne(@RequestParam("id") String id){
       return ResponseEntity.ok().body(restService.pilihHasil(id));
   }
 
@@ -88,8 +90,8 @@ public class HasilController {
       return ResponseEntity.ok().body(entity);
   }
 
-  @PutMapping("/renewal/{id}")
-  public ResponseEntity<?> updateOne(@PathVariable("id") String id, @Valid @RequestBody  Hasil entity ){
+  @PutMapping("/renewal")
+  public ResponseEntity<?> updateOne(@RequestParam("id") String id, @Valid @RequestBody  Hasil entity ){
     Date tanggalSekarang = new Date();
     Hasil r =restService.pilihHasil(id);
     r.setAttachment(entity.getAttachment());
@@ -147,10 +149,10 @@ public class HasilController {
               .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
               .body(resource);
   }
-
-  // @DeleteMapping("/hapus/{id}")
-  // public ResponseEntity<?> delete(@PathVariable("id") String id){
-  //     restService.hapusTarget(id);
-  //     return ResponseEntity.ok().body("Sukses terhapus.");
-  // }
+  
+  @DeleteMapping("/hapus")
+  public ResponseEntity<?> delete(@RequestParam("id") String id){
+      restService.hapusHasil(id);
+      return ResponseEntity.ok().body("Sukses terhapus.");
+  }
 }

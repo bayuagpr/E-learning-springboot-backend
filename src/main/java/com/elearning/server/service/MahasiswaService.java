@@ -7,6 +7,8 @@ import com.elearning.server.repository.MahasiswaRepository;
 import com.elearning.server.service.manager.MahasiswaManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,8 @@ public class MahasiswaService implements MahasiswaManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Mahasiswa> semuaMahasiswa() {
-		return mahasiswaRepository.findAll();
+	public Page<Mahasiswa> semuaMahasiswa(Pageable paging) {
+		return mahasiswaRepository.findAll(paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -40,6 +42,10 @@ public class MahasiswaService implements MahasiswaManager{
 	@Override
 	public Mahasiswa pilihMahasiswa(String id) {
 		// TODO Auto-generated method stub
-		return mahasiswaRepository.getOne(id);
+		return mahasiswaRepository.findById(id).get();
+	}
+
+	public void hapusMahasiswa(String id){
+		mahasiswaRepository.deleteById(id);
 	}
 }

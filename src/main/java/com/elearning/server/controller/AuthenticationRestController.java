@@ -36,6 +36,7 @@ import com.elearning.server.validator.PasswordValidator;
 @Slf4j
 @RestController
 @CrossOrigin
+@RequestMapping("/api/v1/credential")
 public class AuthenticationRestController {
 
     @Value("${jwt.header}")

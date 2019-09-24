@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -22,6 +23,7 @@ public class User implements Serializable{
   private String id;
   @Column(name = "email", nullable = true)
   private String email;
+  @JsonIgnore
   @Column(name = "password", nullable = true)
   private String password;
   //bi-directional one-to-one association to Dosen

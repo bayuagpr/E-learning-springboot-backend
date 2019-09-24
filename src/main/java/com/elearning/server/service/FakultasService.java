@@ -7,6 +7,8 @@ import com.elearning.server.repository.FakultasRepository;
 import com.elearning.server.service.manager.FakultasManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,8 @@ public class FakultasService implements FakultasManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Fakultas> semuaFakultas() {
-		return fakultasRepository.findAll();
+	public Page<Fakultas> semuaFakultas(Pageable paging) {
+		return fakultasRepository.findAll(paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -40,7 +42,13 @@ public class FakultasService implements FakultasManager{
 	@Override
 	public Fakultas pilihFakultas(String id) {
 		// TODO Auto-generated method stub
-		return fakultasRepository.getOne(id);
+		return fakultasRepository.findById(id).get();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	@Override
+	public void hapusFakultas(String id){
+		fakultasRepository.deleteById(id);
 	}
 
 }

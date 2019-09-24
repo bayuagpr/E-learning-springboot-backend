@@ -8,6 +8,8 @@ import com.elearning.server.repository.SoalRepository;
 import com.elearning.server.service.manager.HasilManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +32,8 @@ public class HasilService implements HasilManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Hasil> semuaHasil() {
-		return hasilRepository.findAll();
+	public Page<Hasil> semuaHasil(Pageable paging) {
+		return hasilRepository.findAll(paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -44,6 +46,12 @@ public class HasilService implements HasilManager{
 	@Override
 	public Hasil pilihHasil(String id) {
 		// TODO Auto-generated method stub
-		return hasilRepository.getOne(id);
+		return hasilRepository.findById(id).get();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	@Override
+	public void hapusHasil(String id){
+		hasilRepository.deleteById(id);
 	}
 }

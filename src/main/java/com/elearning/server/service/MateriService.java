@@ -7,6 +7,8 @@ import com.elearning.server.repository.MateriRepository;
 import com.elearning.server.service.manager.MateriManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,8 @@ public class MateriService implements MateriManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Materi> semuaMateri() {
-		return materiRepository.findAll();
+	public Page<Materi> semuaMateri(Pageable paging) {
+		return materiRepository.findAll(paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -40,7 +42,14 @@ public class MateriService implements MateriManager{
 	@Override
 	public Materi pilihMateri(String id) {
 		// TODO Auto-generated method stub
-		return materiRepository.getOne(id);
+		return materiRepository.findById(id).get();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void hapusMateri(String id) {
+		// TODO Auto-generated method stub
+		materiRepository.deleteById(id);
 	}
 
 }

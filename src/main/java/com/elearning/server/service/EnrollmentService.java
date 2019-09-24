@@ -7,6 +7,8 @@ import com.elearning.server.repository.EnrollmentRepository;
 import com.elearning.server.service.manager.EnrollmentManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,8 @@ public class EnrollmentService implements EnrollmentManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Enrollment> semuaEnrollment() {
-		return enrollmentRepository.findAll();
+	public Page<Enrollment> semuaEnrollment(Pageable paging) {
+		return enrollmentRepository.findAll(paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -40,6 +42,12 @@ public class EnrollmentService implements EnrollmentManager{
 	@Override
 	public Enrollment pilihEnrollment(String id) {
 		// TODO Auto-generated method stub
-		return enrollmentRepository.getOne(id);
+		return enrollmentRepository.findById(id).get();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	@Override
+	public void hapusEnrollment(String id){
+		enrollmentRepository.deleteById(id);
 	}
 }

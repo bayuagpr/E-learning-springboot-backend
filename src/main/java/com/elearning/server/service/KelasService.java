@@ -7,6 +7,8 @@ import com.elearning.server.repository.KelasRepository;
 import com.elearning.server.service.manager.KelasManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,8 @@ public class KelasService implements KelasManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Kelas> semuaKelas() {
-		return kelasRepository.findAll();
+	public Page<Kelas> semuaKelas(Pageable paging) {
+		return kelasRepository.findAll(paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -40,12 +42,19 @@ public class KelasService implements KelasManager{
 	@Override
 	public Kelas pilihKelas(String id) {
 		// TODO Auto-generated method stub
-		return kelasRepository.getOne(id);
+		return kelasRepository.findById(id).get();
 	}
 
 	@Override
 	public Kelas cariKelas(String namaKelas) {
 		// TODO Auto-generated method stub
 		return kelasRepository.findByNama(namaKelas);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void hapusKelas(String id) {
+		// TODO Auto-generated method stub
+		kelasRepository.deleteById(id);
 	}
 }

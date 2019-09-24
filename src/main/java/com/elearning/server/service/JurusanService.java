@@ -7,6 +7,8 @@ import com.elearning.server.repository.JurusanRepository;
 import com.elearning.server.service.manager.JurusanManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +29,8 @@ public class JurusanService implements JurusanManager {
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Jurusan> semuaJurusan() {
-		return jurusanRepository.findAll();
+	public Page<Jurusan> semuaJurusan(Pageable paging) {
+		return jurusanRepository.findAll(paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -41,7 +43,11 @@ public class JurusanService implements JurusanManager {
 	@Override
 	public Jurusan pilihJurusan(String id) {
 		// TODO Auto-generated method stub
-		return jurusanRepository.getOne(id);
+		return jurusanRepository.findById(id).get();
+	}
+
+	public void hapusJurusan(String id){
+		jurusanRepository.deleteById(id);
 	}
 }
 

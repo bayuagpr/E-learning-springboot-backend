@@ -10,6 +10,8 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,9 +42,8 @@ public class DosenController {
     }
 
   @GetMapping("/tampilkan")
-  public ResponseEntity<List< Dosen >> findAll(){
-      List< Dosen > entities = restService.semuaDosen();
-      return ResponseEntity.ok().body(entities);
+  public ResponseEntity<Page< Dosen >> findAll(Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaDosen(paging));
   }
 
   @PostMapping
@@ -52,8 +54,8 @@ public class DosenController {
       return ResponseEntity.ok().body(entity);
   }
 
-  @PutMapping("/renewal/{id}")
-  public ResponseEntity<?> updateOne(@PathVariable("id") String id, @Valid @RequestBody  Dosen entity ){
+  @PutMapping("/renewal")
+  public ResponseEntity<?> updateOne(@RequestParam("id") String id, @Valid @RequestBody  Dosen entity ){
     Dosen r =restService.pilihDosen(id);
     r.setNama(entity.getNama());
     r.setAlamat(entity.getAlamat());
@@ -63,14 +65,14 @@ public class DosenController {
       return ResponseEntity.ok().body("Target terbaru pada id "+ id);
   }
 
-  @GetMapping("/tampilkan/{id}")
-  public ResponseEntity<Dosen> findOne(@PathVariable("id") String id){
+  @GetMapping("/pilih")
+  public ResponseEntity<Dosen> findOne(@RequestParam("id") String id){
       return ResponseEntity.ok().body(restService.pilihDosen(id));
   }
 
-  // @DeleteMapping("/hapus/{id}")
-  // public ResponseEntity<?> delete(@PathVariable("id") String id){
-  //     restService.hapusTarget(id);
-  //     return ResponseEntity.ok().body("Sukses terhapus.");
-  // }
+  @DeleteMapping("/hapus")
+  public ResponseEntity<?> delete(@RequestParam("id") String id){
+      restService.hapusDosen(id);
+      return ResponseEntity.ok().body("Sukses terhapus.");
+  }
 }

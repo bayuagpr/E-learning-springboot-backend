@@ -10,8 +10,11 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,13 +44,12 @@ public class JurusanController {
     }
     
   @GetMapping("/tampilkan")
-  public ResponseEntity<List< Jurusan >> findAll(){
-      List< Jurusan > entities = restService.semuaJurusan();
-      return ResponseEntity.ok().body(entities);
+  public ResponseEntity<Page< Jurusan >> findAll(Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaJurusan(paging));
   }
 
-  @GetMapping("/tampilkan/{id}")
-  public ResponseEntity<Jurusan> findOne(@PathVariable("id") String id){
+  @GetMapping("/pilih")
+  public ResponseEntity<Jurusan> findOne(@RequestParam("id") String id){
       return ResponseEntity.ok().body(restService.pilihJurusan(id));
   }
 
@@ -64,17 +67,17 @@ public class JurusanController {
       return ResponseEntity.ok().body(entity);
   }
 
-  @PutMapping("/renewal/{id}")
-  public ResponseEntity<?> updateOne(@PathVariable("id") String id, @Valid @RequestBody  Jurusan entity ){
+  @PutMapping("/renewal")
+  public ResponseEntity<?> updateOne(@RequestParam("id") String id, @Valid @RequestBody  Jurusan entity ){
     Jurusan r =restService.pilihJurusan(id);
     r.setNama(entity.getNama());
     restService.simpanJurusan(r);
       return ResponseEntity.ok().body("Target terbaru pada id "+ id);
   }
 
-  // @DeleteMapping("/hapus/{id}")
-  // public ResponseEntity<?> delete(@PathVariable("id") String id){
-  //     restService.hapusTarget(id);
-  //     return ResponseEntity.ok().body("Sukses terhapus.");
-  // }
+  @DeleteMapping("/hapus")
+  public ResponseEntity<?> delete(@RequestParam("id") String id){
+      restService.hapusJurusan(id);
+      return ResponseEntity.ok().body("Sukses terhapus.");
+  }
 }
