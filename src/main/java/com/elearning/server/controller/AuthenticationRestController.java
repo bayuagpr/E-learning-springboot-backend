@@ -42,23 +42,35 @@ public class AuthenticationRestController {
     @Value("${jwt.header}")
     private String tokenHeader;
 
-    @Autowired
+   
     private RegistrationService registrationService;
 
-    @Autowired
+ 
     private EmailValidator emailValidator;
 
-    @Autowired
+ 
     private PasswordValidator passwordValidator;
 
-    @Autowired
+
     private AuthenticationManager authenticationManager;
 
-    @Autowired
+ 
     private JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
+
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    public AuthenticationRestController(RegistrationService registrationService, EmailValidator emailValidator, 
+    PasswordValidator passwordValidator, AuthenticationManager authenticationManager,
+    JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService) {
+        this.registrationService = registrationService;
+        this.authenticationManager = authenticationManager;
+        this.emailValidator = emailValidator;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.passwordValidator = passwordValidator;
+        this.userDetailsService = userDetailsService;
+    }
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
@@ -98,7 +110,7 @@ public class AuthenticationRestController {
     @ResponseBody
     public ResponseEntity<?> create(@RequestBody User user){
         
-
+        log.info(user.getPassword());
         if (!emailValidator.isValid(user.getEmail())) {
             return ResponseEntity.badRequest().body("email tidak valid");
         }

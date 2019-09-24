@@ -10,17 +10,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.HashSet;
 
 @Service
+@Slf4j
 public class RegistrationService implements RegistrationManager {
-    @Autowired
+  
     private UserRepository userRepository;
-    @Autowired
+  
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    public RegistrationService(UserRepository userRepository,PasswordEncoder passwordEncoder ) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void simpanUser(User user) {
+        log.info(user.getPassword());
         user.setEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(user.getRole());

@@ -71,7 +71,7 @@ return PasswordEncoderFactories.createDelegatingPasswordEncoder();
                 .authorizeRequests()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                .antMatchers("/auth/**","/registration/**").permitAll()
+                .antMatchers("/api/v1/credential/auth/**","/api/v1/credential/registration/**").permitAll()
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter

@@ -23,7 +23,6 @@ public class User implements Serializable{
   private String id;
   @Column(name = "email", nullable = true)
   private String email;
-  @JsonIgnore
   @Column(name = "password", nullable = true)
   private String password;
   //bi-directional one-to-one association to Dosen
