@@ -17,13 +17,14 @@ import java.util.HashSet;
 @Service
 @Slf4j
 public class RegistrationService implements RegistrationManager {
-  
-    private UserRepository userRepository;
+
   
     private PasswordEncoder passwordEncoder;
+
+    private UserRepository userRepository;
     
     @Autowired
-    public RegistrationService(UserRepository userRepository,PasswordEncoder passwordEncoder ) {
+    public RegistrationService(PasswordEncoder passwordEncoder,UserRepository userRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -41,4 +42,5 @@ public class RegistrationService implements RegistrationManager {
     public boolean cariKetersediaanEmail(String email) {
         return userRepository.findByEmail(email) == null;
     }
+    
 }
