@@ -32,6 +32,12 @@ public class KelasService implements KelasManager{
 		return kelasRepository.findAll(paging);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Override
+	public List<Kelas> semuaKelasLain() {
+		return kelasRepository.findAll();
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public Kelas simpanKelas(Kelas ds) {

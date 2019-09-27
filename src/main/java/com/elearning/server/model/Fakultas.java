@@ -15,7 +15,6 @@ import lombok.Data;
 @Data
 @Entity(name = "com.elearning.server.model.Fakultas")
 @Table(name = "fakultas")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Fakultas.class)
 public class Fakultas implements Serializable{
   private static final long serialVersionUID = 1L;
 

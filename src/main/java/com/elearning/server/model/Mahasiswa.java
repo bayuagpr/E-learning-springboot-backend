@@ -16,7 +16,6 @@ import lombok.Data;
 @Data
 @Entity(name = "com.elearning.server.model.Mahasiswa")
 @Table(name = "mahasiswa")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "nim", scope = Mahasiswa.class)
 public class Mahasiswa implements Serializable{
 
 

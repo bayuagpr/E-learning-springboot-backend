@@ -47,6 +47,11 @@ public class KelasController {
       return ResponseEntity.ok().body(restService.semuaKelas(paging));
   }
 
+  @GetMapping("/tampilkanSemua")
+  public ResponseEntity<List< Kelas >> findAllLain(){
+      return ResponseEntity.ok().body(restService.semuaKelasLain());
+  }
+
   @GetMapping("/pilih")
   public ResponseEntity<Kelas> findOne(@RequestParam("id") String id){
       return ResponseEntity.ok().body(restService.pilihKelas(id));

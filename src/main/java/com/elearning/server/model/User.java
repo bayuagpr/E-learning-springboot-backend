@@ -14,7 +14,6 @@ import lombok.Data;
 @Data
 @Entity(name = "com.elearning.server.model.User")
 @Table(name = "user")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = User.class)
 public class User implements Serializable{
   private static final long serialVersionUID = 1L;
   

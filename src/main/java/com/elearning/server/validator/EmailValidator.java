@@ -21,7 +21,7 @@ public class EmailValidator {
 
    
     public boolean isValid(final String email) {
-        return (validateEmail(email));
+        return (validateEmail(email))&&(validateAvailability(email));
     }
 
     private boolean validateEmail(final String email) {
@@ -30,5 +30,7 @@ public class EmailValidator {
         return matcher.matches();
     }
 
-  
+    private boolean validateAvailability(final String email) {
+        return registrationService.cariKetersediaanEmail(email);
+    }
 }

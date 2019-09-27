@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;;
 public interface KelasManager {
 
     Page<Kelas> semuaKelas(Pageable paging);
-
+    List<Kelas> semuaKelasLain();
     Kelas simpanKelas(Kelas ds);
     Kelas pilihKelas(String id);
     Kelas cariKelas(String namaKelas);

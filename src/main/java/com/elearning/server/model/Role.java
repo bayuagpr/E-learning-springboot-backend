@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 @Entity(name = "com.elearning.server.model.Role")
 @Table(name = "role")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Role.class)
 public class Role implements Serializable{
   private static final long serialVersionUID = 1L;
 
