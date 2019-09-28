@@ -15,7 +15,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.naming.AuthenticationException;
+import javax.servlet.*;
 
 import com.elearning.server.security.JwtAuthenticationEntryPoint;
 import com.elearning.server.security.JwtAuthenticationTokenFilter;
@@ -37,6 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+   
     
     @Override
 protected void configure(AuthenticationManagerBuilder auth) throws Exception 
@@ -64,14 +72,13 @@ return PasswordEncoderFactories.createDelegatingPasswordEncoder();
                 .csrf().disable()
 
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-
                 // don't create session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                .antMatchers("/api/v1/credential/auth/**","/api/v1/credential/registration/**").permitAll()
+                .antMatchers("/api/v1/credential/auth/mahasiswa/**","/api/v1/credential/auth/dosen/**","/api/v1/credential/registration/**").permitAll()
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter
@@ -80,5 +87,6 @@ return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
         // disable page caching
         httpSecurity.headers().cacheControl();
+
     }
 }

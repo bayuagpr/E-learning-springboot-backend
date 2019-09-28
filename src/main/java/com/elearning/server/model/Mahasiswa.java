@@ -48,6 +48,5 @@ public class Mahasiswa implements Serializable{
 	//bi-directional one-to-one association to User
 	@OneToOne
 	@JoinColumn(name="nim")
-	@JsonIgnore
 	private User user;
 }

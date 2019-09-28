@@ -31,5 +31,10 @@ public class UserService implements UserDetailsService {
             return JwtUserFactory.create(user);
         }
     }
+
+    public String getId(String username){
+        User user = userRepository.findByEmail(username);
+        return user.getId();
+    }
    
 }

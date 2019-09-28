@@ -40,7 +40,6 @@ public class Dosen implements Serializable{
 	//bi-directional one-to-one association to User
 	@OneToOne
 	@JoinColumn(name="nidn")
-	@JsonIgnore
 	private User user;
 
 	//bi-directional many-to-one association to Kelas
