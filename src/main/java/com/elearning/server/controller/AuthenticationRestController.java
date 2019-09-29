@@ -185,11 +185,16 @@ public class AuthenticationRestController {
         newAuth.setPassword(user.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(newAuth.getEmail());
         if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority("Mahasiswa"))){
-            final String token = jwtTokenUtil.generateToken(userDetails,user.getId(),mahasiswaService.pilihMahasiswa(user.getId()).getNama());
-            // Return the token
-            return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+            if(mahasiswaService.pilihMahasiswa(user.getId()).getNama()==null){
+                final String token = jwtTokenUtil.generateToken(userDetails,user.getId(),"RegistrasiMahasiswa");
+                // Return the token
+                return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+            }else{ final String token = jwtTokenUtil.generateToken(userDetails,user.getId(),mahasiswaService.pilihMahasiswa(user.getId()).getNama());
+                // Return the token
+                return ResponseEntity.ok(new JwtAuthenticationResponse(token));}
+           
         }else if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority("Dosen"))){
-            final String token = jwtTokenUtil.generateToken(userDetails,user.getId(),dosenService.pilihDosen(user.getId()).getNama());
+            final String token = jwtTokenUtil.generateToken(userDetails,user.getId(),"RegistrasiDosen");
             // Return the token
             return ResponseEntity.ok(new JwtAuthenticationResponse(token));
         }else{
