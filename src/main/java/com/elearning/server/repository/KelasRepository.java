@@ -1,12 +1,16 @@
 package com.elearning.server.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.elearning.server.model.Kelas;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,5 +19,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface KelasRepository extends JpaRepository<Kelas, String>, JpaSpecificationExecutor<Kelas> {
 Kelas findByNama(String nama);
-List<Kelas> findByNamaIgnoreCaseContaining(String nama);
+Page<Kelas> findByNamaIgnoreCaseContaining(String nama, Pageable page);
+@Query(
+    value = "SELECT * FROM kelas k where k.id_dosen = :id_dosen", 
+    nativeQuery=true
+)
+public Page<Kelas> findByDosen(@Param("id_dosen") String idDosen,Pageable paging);
 }

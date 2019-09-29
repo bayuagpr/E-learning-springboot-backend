@@ -49,8 +49,8 @@ public class KelasController {
   }
 
   @GetMapping("/tampilkanSemua")
-  public ResponseEntity<List< Kelas >> findAllLain(){
-      return ResponseEntity.ok().body(restService.semuaKelasLain());
+  public ResponseEntity<Page< Kelas >> findAllByDosen(@RequestParam("id") String id, Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaKelasLain(id,paging));
   }
 
   @GetMapping("/pilih")
@@ -59,10 +59,10 @@ public class KelasController {
   }
 
   @GetMapping("/tampilkan/{nama}")
-  public ResponseEntity<KelasList> findKelas(@PathVariable("nama") String nama){
-    KelasList kelas = new KelasList();
-    kelas.setListKelas(restService.cariKelasSeperti(nama));
-      return ResponseEntity.ok().body(kelas);
+  public ResponseEntity<Page< Kelas >> findKelas(@PathVariable("nama") String nama,Pageable paging){
+    // KelasList kelas = new KelasList();
+    // kelas.setListKelas(restService.cariKelasSeperti(nama));
+      return ResponseEntity.ok().body(restService.cariKelasSeperti(nama,paging));
   }
 
   @PostMapping

@@ -1,6 +1,7 @@
 package com.elearning.server.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.elearning.server.model.Kelas;
 import com.elearning.server.repository.KelasRepository;
@@ -34,14 +35,14 @@ public class KelasService implements KelasManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Kelas> cariKelasSeperti(String nama) {
-		return kelasRepository.findByNamaIgnoreCaseContaining(nama);
+	public Page<Kelas> cariKelasSeperti(String nama, Pageable paging) {
+		return kelasRepository.findByNamaIgnoreCaseContaining(nama, paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public List<Kelas> semuaKelasLain() {
-		return kelasRepository.findAll();
+	public Page<Kelas> semuaKelasLain(String id, Pageable paging) {
+		return kelasRepository.findByDosen(id,paging);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
