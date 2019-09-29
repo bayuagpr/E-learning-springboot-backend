@@ -15,4 +15,5 @@ public interface KelasManager {
     Kelas pilihKelas(String id);
     Kelas cariKelas(String namaKelas);
     void hapusKelas(String id);
+    List<Kelas> cariKelasSeperti(String nama);
 }

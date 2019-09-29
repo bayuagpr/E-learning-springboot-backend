@@ -34,6 +34,12 @@ public class KelasService implements KelasManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
+	public List<Kelas> cariKelasSeperti(String nama) {
+		return kelasRepository.findByNamaIgnoreCaseContaining(nama);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Override
 	public List<Kelas> semuaKelasLain() {
 		return kelasRepository.findAll();
 	}

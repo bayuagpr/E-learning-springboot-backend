@@ -1,6 +1,7 @@
 package com.elearning.server.controller;
 
 import com.elearning.server.model.Kelas;
+import com.elearning.server.model.KelasList;
 import com.elearning.server.service.KelasService;
 
 import java.util.ArrayList;
@@ -58,8 +59,10 @@ public class KelasController {
   }
 
   @GetMapping("/tampilkan/{nama}")
-  public ResponseEntity<Kelas> findKelas(@PathVariable("nama") String nama){
-      return ResponseEntity.ok().body(restService.cariKelas(nama));
+  public ResponseEntity<KelasList> findKelas(@PathVariable("nama") String nama){
+    KelasList kelas = new KelasList();
+    kelas.setListKelas(restService.cariKelasSeperti(nama));
+      return ResponseEntity.ok().body(kelas);
   }
 
   @PostMapping
