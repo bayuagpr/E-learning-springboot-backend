@@ -1,8 +1,13 @@
 package com.elearning.server.repository;
 
 import com.elearning.server.model.Enrollment;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +15,15 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, String>, JpaSpecificationExecutor<Enrollment> {
+    @Query(
+        value = "SELECT * FROM enrollment k where k.id_class = :id_class and k.disetujui = :disetujui", 
+        nativeQuery=true
+    )
+    public Page<Enrollment> findByKelas(@Param("id_class") String idKelas,@Param("disetujui") Boolean disetujui,Pageable paging);
 
+    @Query(
+        value = "SELECT * FROM enrollment k where k.id_mahasiswa = :id_mahasiswa", 
+        nativeQuery=true
+    )
+    public Page<Enrollment> findByMahasiswa(@Param("id_mahasiswa") String idMahasiswa,Pageable paging);
 }

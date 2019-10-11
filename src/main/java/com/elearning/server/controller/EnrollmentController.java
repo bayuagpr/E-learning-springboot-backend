@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v1/Enrollment")
+@RequestMapping("/api/v1/enrollment")
 public class EnrollmentController {
   
   private EnrollmentService restService;
@@ -45,6 +45,16 @@ public class EnrollmentController {
   @GetMapping("/tampilkan")
   public ResponseEntity<Page< Enrollment >> findAll(Pageable paging){
       return ResponseEntity.ok().body(restService.semuaEnrollment(paging));
+  }
+
+  @GetMapping("/tampilkanSemuaKelas")
+  public ResponseEntity<Page< Enrollment >> findAllByKelas(@RequestParam("id") String id,@RequestParam("disetujui") Boolean disetujui, Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaHasilKelas(id,disetujui, paging));
+  }
+
+  @GetMapping("/tampilkanSemuaMahasiswa")
+  public ResponseEntity<Page< Enrollment >> findAllByMahasiswa(@RequestParam("id") String id, Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaHasilMahasiswa(id,paging));
   }
 
   @GetMapping("/pilih")

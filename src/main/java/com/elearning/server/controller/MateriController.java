@@ -61,6 +61,11 @@ public class MateriController {
       return ResponseEntity.ok().body(restService.semuaMateri(paging));
   }
 
+  @GetMapping("/tampilkanSemua")
+  public ResponseEntity<Page< Materi >> findAllByKelas(@RequestParam("id") String id, Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaMateriKelas(id,paging));
+  }
+
   @GetMapping("/pilih")
   public ResponseEntity<Materi> findOne(@RequestParam("id") String id){
       return ResponseEntity.ok().body(restService.pilihMateri(id));

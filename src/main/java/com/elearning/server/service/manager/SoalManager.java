@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface SoalManager {
 
     Page<Soal> semuaSoal(Pageable paging);
-
+    Page<Soal> semuaSoalKelas(String id, Pageable paging);
     Soal simpanSoal(Soal ds);
     Soal pilihSoal(String id);
     void hapusSoal(String id);

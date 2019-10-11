@@ -22,6 +22,8 @@ public class JwtTokenUtil implements Serializable {
     static final String CLAIM_KEY_CREATED = "created";
     static final String CLAIM_KEY_ID = "id";
     static final String CLAIM_KEY_NAMA = "nama";
+    static final String CLAIM_KEY_ROLE = "role";
+
 
     @Value("${jwt.secret}")
     private String secret;
@@ -96,6 +98,7 @@ public class JwtTokenUtil implements Serializable {
         claims.put(CLAIM_KEY_CREATED, new Date());
         claims.put(CLAIM_KEY_ID, idUser);
         claims.put(CLAIM_KEY_NAMA, nama);
+       claims.put(CLAIM_KEY_ROLE,userDetails.getAuthorities().toString());
         return generateToken(claims);
     }
 

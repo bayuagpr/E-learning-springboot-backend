@@ -37,6 +37,9 @@ public class Hasil implements Serializable{
   @Temporal(TemporalType.TIMESTAMP)
   private Date lastModified;
  //bi-directional many-to-one association to Mahasiswa
+
+  @Column(name = "ternilai", nullable = true)
+  private boolean ternilai;
  @ManyToOne
  @JoinColumn(name="id_mahasiswa")
  private Mahasiswa mahasiswa;
@@ -45,4 +48,10 @@ public class Hasil implements Serializable{
  @ManyToOne
  @JoinColumn(name="id_soal")
  private Soal soal;
+ 
+ public boolean getTernilai() {
+  // TODO Auto-generated method stub
+  return ternilai;
+}
+
 }

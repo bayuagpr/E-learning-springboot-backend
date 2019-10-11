@@ -61,6 +61,11 @@ public class SoalController {
       return ResponseEntity.ok().body(restService.semuaSoal(paging));
   }
 
+  @GetMapping("/tampilkanSemua")
+  public ResponseEntity<Page< Soal >> findAllByKelas(@RequestParam("id") String id, Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaSoalKelas(id,paging));
+  }
+
   @GetMapping("/pilih")
   public ResponseEntity<Soal> findOne(@RequestParam("id") String id){
       return ResponseEntity.ok().body(restService.pilihSoal(id));
@@ -97,7 +102,7 @@ public class SoalController {
       String fileName = fileStorageService.storeFile(file);
 
       String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-              .path("/api/v1/materi/downloadSoal/")
+              .path("/api/v1/soal/downloadSoal/")
               .path(fileName)
               .toUriString();
               

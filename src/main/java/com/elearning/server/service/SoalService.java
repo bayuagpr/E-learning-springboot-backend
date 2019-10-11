@@ -33,6 +33,12 @@ public class SoalService implements SoalManager{
 		return soalRepository.findAll(paging);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Override
+	public Page<Soal> semuaSoalKelas(String id, Pageable paging) {
+		return soalRepository.findByKelas(id,paging);
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public Soal simpanSoal(Soal ds) {

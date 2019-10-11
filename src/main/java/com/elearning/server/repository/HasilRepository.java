@@ -1,8 +1,13 @@
 package com.elearning.server.repository;
 
 import com.elearning.server.model.Hasil;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +15,15 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface HasilRepository extends JpaRepository<Hasil, String>, JpaSpecificationExecutor<Hasil> {
+    @Query(
+        value = "SELECT * FROM hasil k where k.id_soal = :id_soal and k.status = :status", 
+        nativeQuery=true
+    )
+    public Page<Hasil> findBySoal(@Param("id_soal") String idSoal,@Param("status") String status,Pageable paging);
 
+    @Query(
+        value = "SELECT * FROM hasil k where k.id_mahasiswa = :id_mahasiswa", 
+        nativeQuery=true
+    )
+    public Page<Hasil> findByMahasiswa(@Param("id_mahasiswa") String idMahasiswa,Pageable paging);
 }

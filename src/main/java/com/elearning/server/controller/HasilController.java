@@ -64,6 +64,16 @@ public class HasilController {
       return ResponseEntity.ok().body(restService.semuaHasil(paging));
   }
 
+  @GetMapping("/tampilkanSemuaSoal")
+  public ResponseEntity<Page< Hasil >> findAllBySoal(@RequestParam("id") String id,@RequestParam("status") String status, Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaHasilSoal(id,status, paging));
+  }
+
+  @GetMapping("/tampilkanSemuaMahasiswa")
+  public ResponseEntity<Page< Hasil >> findAllByMahasiswa(@RequestParam("id") String id, Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaHasilMahasiswa(id,paging));
+  }
+
   @GetMapping("/pilih")
   public ResponseEntity<Hasil> findOne(@RequestParam("id") String id){
       return ResponseEntity.ok().body(restService.pilihHasil(id));
@@ -99,6 +109,7 @@ public class HasilController {
     r.setKomentar(entity.getKomentar());
     r.setNilai(entity.getNilai());
     r.setLastModified(tanggalSekarang);
+    r.setTernilai(entity.getTernilai());
     restService.simpanHasil(r);
       return ResponseEntity.ok().body("Target terbaru pada id "+ id);
   }
@@ -108,7 +119,7 @@ public class HasilController {
       String fileName = fileStorageService.storeFile(file);
 
       String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-              .path("/api/v1/materi/downloadSoal/")
+              .path("/api/v1/hasil/downloadHasil/")
               .path(fileName)
               .toUriString();
               

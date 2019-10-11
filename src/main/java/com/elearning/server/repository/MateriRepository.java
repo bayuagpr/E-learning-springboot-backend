@@ -1,8 +1,13 @@
 package com.elearning.server.repository;
 
 import com.elearning.server.model.Materi;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +15,9 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface MateriRepository extends JpaRepository<Materi, String>, JpaSpecificationExecutor<Materi> {
-
+    @Query(
+        value = "SELECT * FROM materi k where k.id_class = :id_class", 
+        nativeQuery=true
+    )
+    public Page<Materi> findByKelas(@Param("id_class") String idKelas,Pageable paging);
 }

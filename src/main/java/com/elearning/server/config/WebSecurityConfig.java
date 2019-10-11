@@ -78,7 +78,7 @@ return PasswordEncoderFactories.createDelegatingPasswordEncoder();
                 .authorizeRequests()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                .antMatchers("/api/v1/credential/auth/mahasiswa/**","/api/v1/credential/auth/dosen/**","/api/v1/credential/registration/**").permitAll()
+                .antMatchers("/api/v1/soal/downloadSoal/**","/api/v1/hasil/downloadHasil/**","/api/v1/materi/downloadMateri/**","/api/v1/credential/auth/mahasiswa/**","/api/v1/credential/auth/dosen/**","/api/v1/credential/registration/**").permitAll()
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter

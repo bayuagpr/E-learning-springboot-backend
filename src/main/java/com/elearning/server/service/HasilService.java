@@ -54,4 +54,16 @@ public class HasilService implements HasilManager{
 	public void hapusHasil(String id){
 		hasilRepository.deleteById(id);
 	}
+
+	@Override
+	public Page<Hasil> semuaHasilSoal(String id, String status, Pageable paging) {
+		// TODO Auto-generated method stub
+		return hasilRepository.findBySoal(id,status, paging);
+	}
+
+	@Override
+	public Page<Hasil> semuaHasilMahasiswa(String id, Pageable paging) {
+		// TODO Auto-generated method stub
+		return hasilRepository.findByMahasiswa(id, paging);
+	}
 }

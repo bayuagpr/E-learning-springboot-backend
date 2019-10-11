@@ -50,4 +50,17 @@ public class EnrollmentService implements EnrollmentManager{
 	public void hapusEnrollment(String id){
 		enrollmentRepository.deleteById(id);
 	}
+
+	@Override
+	public Page<Enrollment> semuaHasilKelas(String id, Boolean disetujui,Pageable paging) {
+		// TODO Auto-generated method stub
+		return enrollmentRepository.findByKelas(id,disetujui, paging);
+	}
+
+	@Override
+	public Page<Enrollment> semuaHasilMahasiswa(String id, Pageable paging) {
+		// TODO Auto-generated method stub
+		return enrollmentRepository.findByMahasiswa(id, paging);
+	}
+
 }

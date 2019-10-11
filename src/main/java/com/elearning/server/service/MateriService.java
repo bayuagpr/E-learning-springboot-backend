@@ -32,6 +32,12 @@ public class MateriService implements MateriManager{
 		return materiRepository.findAll(paging);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@Override
+	public Page<Materi> semuaMateriKelas(String id, Pageable paging) {
+		return materiRepository.findByKelas(id,paging);
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public Materi simpanMateri(Materi ds) {

@@ -14,4 +14,5 @@ public interface MateriManager {
     Materi simpanMateri(Materi ds);
     Materi pilihMateri(String id);
     void hapusMateri(String id);
+    Page<Materi> semuaMateriKelas(String id, Pageable paging);
 }
