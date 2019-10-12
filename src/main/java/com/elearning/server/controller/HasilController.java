@@ -1,5 +1,6 @@
 package com.elearning.server.controller;
 
+import com.elearning.server.model.ExistHasil;
 import com.elearning.server.model.Hasil;
 import com.elearning.server.model.StatusHasil;
 import com.elearning.server.payload.UploadFileResponse;
@@ -77,6 +78,20 @@ public class HasilController {
   @GetMapping("/pilih")
   public ResponseEntity<Hasil> findOne(@RequestParam("id") String id){
       return ResponseEntity.ok().body(restService.pilihHasil(id));
+  }
+
+  @GetMapping("/existHasil")
+  public ResponseEntity<ExistHasil> existEnrollment(@RequestParam("idMahasiswa") String idMahasiswa,@RequestParam("idSoal") String idSoal){
+    ExistHasil e =  new ExistHasil();  
+    if(restService.existMahasiswaKelas(idMahasiswa, idSoal)){
+        List<Hasil> hasil =restService.findMahasiswaKelas(idMahasiswa, idSoal);
+        e.setHasilList(hasil);
+        e.setStatus(true);
+        return ResponseEntity.ok().body(e);
+      }else{
+        e.setStatus(false);
+        return ResponseEntity.ok().body(e);
+      }
   }
 
   @PostMapping

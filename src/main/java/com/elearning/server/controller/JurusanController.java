@@ -44,8 +44,8 @@ public class JurusanController {
     }
     
   @GetMapping("/tampilkan")
-  public ResponseEntity<Page< Jurusan >> findAll(Pageable paging){
-      return ResponseEntity.ok().body(restService.semuaJurusan(paging));
+  public ResponseEntity<List< Jurusan >> findAll(){
+      return ResponseEntity.ok().body(restService.semuaJurusan());
   }
 
   @GetMapping("/pilih")

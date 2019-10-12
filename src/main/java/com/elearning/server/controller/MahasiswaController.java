@@ -65,6 +65,7 @@ public class MahasiswaController {
     r.setNama(entity.getNama());
     r.setTanggal_lahir(entity.getTanggal_lahir());
     r.setTempat_lahir(entity.getTempat_lahir());
+    r.setAlamat(entity.getAlamat());
     restService.simpanMahasiswa(r);
       return ResponseEntity.ok().body("Target terbaru pada id "+ id);
   }

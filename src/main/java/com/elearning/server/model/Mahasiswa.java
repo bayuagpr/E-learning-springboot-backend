@@ -30,6 +30,9 @@ public class Mahasiswa implements Serializable{
 
 	@Column(name="tempat_lahir")
   private String tempat_lahir;
+
+  @Column(name = "alamat", nullable = true)
+  private String alamat;
   //bi-directional many-to-one association to Enrollment
 	@OneToMany(mappedBy="mahasiswa")
 	@JsonBackReference(value="enrollMahasiswa")	

@@ -58,9 +58,19 @@ public class EnrollmentService implements EnrollmentManager{
 	}
 
 	@Override
-	public Page<Enrollment> semuaHasilMahasiswa(String id, Pageable paging) {
+	public Page<Enrollment> semuaHasilMahasiswa(String id,Boolean disetujui, Pageable paging) {
 		// TODO Auto-generated method stub
-		return enrollmentRepository.findByMahasiswa(id, paging);
+		return enrollmentRepository.findByMahasiswa(id,disetujui, paging);
+	}
+
+	public boolean existMahasiswaKelas(String idMahasiswa,String idKelas) {
+		// TODO Auto-generated method stub
+		return enrollmentRepository.existsByMahasiswaKelas(idMahasiswa,idKelas);
+	}
+
+	public List<Enrollment> findMahasiswaKelas(String idMahasiswa,String idKelas) {
+		// TODO Auto-generated method stub
+		return enrollmentRepository.findByMahasiswaKelas(idMahasiswa,idKelas);
 	}
 
 }

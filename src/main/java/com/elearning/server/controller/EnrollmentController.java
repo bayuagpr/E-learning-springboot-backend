@@ -1,6 +1,7 @@
 package com.elearning.server.controller;
 
 import com.elearning.server.model.Enrollment;
+import com.elearning.server.model.ExistEnroll;
 import com.elearning.server.service.EnrollmentService;
 
 import java.util.ArrayList;
@@ -53,13 +54,27 @@ public class EnrollmentController {
   }
 
   @GetMapping("/tampilkanSemuaMahasiswa")
-  public ResponseEntity<Page< Enrollment >> findAllByMahasiswa(@RequestParam("id") String id, Pageable paging){
-      return ResponseEntity.ok().body(restService.semuaHasilMahasiswa(id,paging));
+  public ResponseEntity<Page< Enrollment >> findAllByMahasiswa(@RequestParam("id") String id,@RequestParam("disetujui") Boolean disetujui, Pageable paging){
+      return ResponseEntity.ok().body(restService.semuaHasilMahasiswa(id,disetujui,paging));
   }
 
   @GetMapping("/pilih")
   public ResponseEntity<Enrollment> findOne(@RequestParam("id") String id){
       return ResponseEntity.ok().body(restService.pilihEnrollment(id));
+  }
+
+  @GetMapping("/existEnrollment")
+  public ResponseEntity<ExistEnroll> existEnrollment(@RequestParam("idMahasiswa") String idMahasiswa,@RequestParam("idKelas") String idKelas){
+    ExistEnroll e =  new ExistEnroll();  
+    if(restService.existMahasiswaKelas(idMahasiswa, idKelas)){
+        List<Enrollment> enroll =restService.findMahasiswaKelas(idMahasiswa, idKelas);
+        e.setEnrollmentList(enroll);
+        e.setStatus(true);
+        return ResponseEntity.ok().body(e);
+      }else{
+        e.setStatus(false);
+        return ResponseEntity.ok().body(e);
+      }
   }
 
   @PostMapping

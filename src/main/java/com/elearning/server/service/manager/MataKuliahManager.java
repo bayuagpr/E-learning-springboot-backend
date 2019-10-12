@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;;
  
 public interface MataKuliahManager {
 
-    Page<MataKuliah> semuaMataKuliah(Pageable paging);
+    List<MataKuliah> semuaMataKuliah();
 
     MataKuliah simpanMataKuliah(MataKuliah ds);
     MataKuliah pilihMataKuliah(String id);

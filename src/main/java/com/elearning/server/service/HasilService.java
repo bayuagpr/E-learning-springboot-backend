@@ -66,4 +66,14 @@ public class HasilService implements HasilManager{
 		// TODO Auto-generated method stub
 		return hasilRepository.findByMahasiswa(id, paging);
 	}
+
+	public boolean existMahasiswaKelas(String idMahasiswa,String idSoal) {
+		// TODO Auto-generated method stub
+		return hasilRepository.existsByMahasiswaSoal(idMahasiswa,idSoal);
+	}
+
+	public List<Hasil> findMahasiswaKelas(String idMahasiswa,String idSoal) {
+		// TODO Auto-generated method stub
+		return hasilRepository.findByMahasiswaSoal(idMahasiswa,idSoal);
+	}
 }

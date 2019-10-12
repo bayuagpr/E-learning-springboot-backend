@@ -45,8 +45,8 @@ public class MataKuliahController {
     }
     
   @GetMapping("/tampilkan")
-  public ResponseEntity<Page< MataKuliah >> findAll(Pageable paging){
-      return ResponseEntity.ok().body(restService.semuaMataKuliah(paging));
+  public ResponseEntity<List< MataKuliah >> findAll(){
+      return ResponseEntity.ok().body(restService.semuaMataKuliah());
   }
 
   @GetMapping("/piilh")

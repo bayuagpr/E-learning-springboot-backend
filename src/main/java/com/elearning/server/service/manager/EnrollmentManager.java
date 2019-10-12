@@ -11,7 +11,7 @@ public interface EnrollmentManager {
 
     Page<Enrollment> semuaEnrollment(Pageable paging);
     Page<Enrollment> semuaHasilKelas(String id, Boolean disetujui,Pageable paging);
-    Page<Enrollment> semuaHasilMahasiswa(String id, Pageable paging);
+    Page<Enrollment> semuaHasilMahasiswa(String id,Boolean disetujui, Pageable paging);
     Enrollment simpanEnrollment(Enrollment ds);
     
     Enrollment pilihEnrollment(String id);   

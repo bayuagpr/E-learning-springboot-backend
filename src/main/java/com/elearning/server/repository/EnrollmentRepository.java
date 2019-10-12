@@ -1,5 +1,7 @@
 package com.elearning.server.repository;
 
+import java.util.List;
+
 import com.elearning.server.model.Enrollment;
 
 import org.springframework.data.domain.Page;
@@ -22,8 +24,18 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, String>,
     public Page<Enrollment> findByKelas(@Param("id_class") String idKelas,@Param("disetujui") Boolean disetujui,Pageable paging);
 
     @Query(
-        value = "SELECT * FROM enrollment k where k.id_mahasiswa = :id_mahasiswa", 
+        value = "SELECT * FROM enrollment k where k.id_mahasiswa = :id_mahasiswa and k.disetujui = :disetujui", 
         nativeQuery=true
     )
-    public Page<Enrollment> findByMahasiswa(@Param("id_mahasiswa") String idMahasiswa,Pageable paging);
+    public Page<Enrollment> findByMahasiswa(@Param("id_mahasiswa") String idMahasiswa,@Param("disetujui") Boolean disetujui,Pageable paging);
+    @Query(
+        value = "select case when count(k)> 0 then true else false end from com.elearning.server.model.Enrollment k where k.mahasiswa.nim = :id_mahasiswa and k.kelas.id = :id_class"
+    )
+    public boolean existsByMahasiswaKelas(@Param("id_mahasiswa") String idMahasiswa,@Param("id_class") String idKelas);
+    @Query(
+        value = "SELECT * FROM enrollment k where k.id_mahasiswa = :id_mahasiswa and k.id_class = :id_class", 
+        nativeQuery=true
+    )
+    public List<Enrollment> findByMahasiswaKelas(@Param("id_mahasiswa") String idMahasiswa,@Param("id_class") String idKelas);
 }
+

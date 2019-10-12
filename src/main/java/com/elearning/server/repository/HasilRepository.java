@@ -1,5 +1,7 @@
 package com.elearning.server.repository;
 
+import java.util.List;
+
 import com.elearning.server.model.Hasil;
 
 import org.springframework.data.domain.Page;
@@ -26,4 +28,13 @@ public interface HasilRepository extends JpaRepository<Hasil, String>, JpaSpecif
         nativeQuery=true
     )
     public Page<Hasil> findByMahasiswa(@Param("id_mahasiswa") String idMahasiswa,Pageable paging);
+    @Query(
+        value = "select case when count(k)> 0 then true else false end from com.elearning.server.model.Hasil k where k.mahasiswa.nim = :id_mahasiswa and k.soal.id = :id_soal"
+    )
+    public boolean existsByMahasiswaSoal(@Param("id_mahasiswa") String idMahasiswa,@Param("id_soal") String idSoal);
+    @Query(
+        value = "SELECT * FROM enrollment k where k.id_mahasiswa = :id_mahasiswa and k.id_soal = :id_soal", 
+        nativeQuery=true
+    )
+    public List<Hasil> findByMahasiswaSoal(@Param("id_mahasiswa") String idMahasiswa,@Param("id_soal") String idSoal);
 }

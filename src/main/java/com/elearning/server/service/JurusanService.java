@@ -29,8 +29,8 @@ public class JurusanService implements JurusanManager {
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public Page<Jurusan> semuaJurusan(Pageable paging) {
-		return jurusanRepository.findAll(paging);
+	public List<Jurusan> semuaJurusan() {
+		return jurusanRepository.findAll();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)

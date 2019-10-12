@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;;
  
 public interface JurusanManager {
 
-    Page<Jurusan> semuaJurusan(Pageable paging);
+    List<Jurusan> semuaJurusan();
 
     Jurusan simpanJurusan(Jurusan ds);
     Jurusan pilihJurusan(String id);

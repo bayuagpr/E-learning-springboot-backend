@@ -32,8 +32,8 @@ public class MataKuliahService implements MataKuliahManager{
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override
-	public Page<MataKuliah> semuaMataKuliah(Pageable paging){
-		return mataKuliahRepository.findAll(paging);
+	public List<MataKuliah> semuaMataKuliah(){
+		return mataKuliahRepository.findAll();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
