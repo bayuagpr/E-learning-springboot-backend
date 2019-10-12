@@ -33,7 +33,7 @@ public interface HasilRepository extends JpaRepository<Hasil, String>, JpaSpecif
     )
     public boolean existsByMahasiswaSoal(@Param("id_mahasiswa") String idMahasiswa,@Param("id_soal") String idSoal);
     @Query(
-        value = "SELECT * FROM enrollment k where k.id_mahasiswa = :id_mahasiswa and k.id_soal = :id_soal", 
+        value = "SELECT * FROM hasil k where k.id_mahasiswa = :id_mahasiswa and k.id_soal = :id_soal", 
         nativeQuery=true
     )
     public List<Hasil> findByMahasiswaSoal(@Param("id_mahasiswa") String idMahasiswa,@Param("id_soal") String idSoal);

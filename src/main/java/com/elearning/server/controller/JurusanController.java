@@ -1,6 +1,7 @@
 package com.elearning.server.controller;
 
 import com.elearning.server.model.Jurusan;
+import com.elearning.server.model.JurusanList;
 import com.elearning.server.service.JurusanService;
 
 import java.util.ArrayList;
@@ -44,8 +45,10 @@ public class JurusanController {
     }
     
   @GetMapping("/tampilkan")
-  public ResponseEntity<List< Jurusan >> findAll(){
-      return ResponseEntity.ok().body(restService.semuaJurusan());
+  public ResponseEntity<JurusanList> findAll(){
+    JurusanList jurusans = new JurusanList();
+    jurusans.setJurusanList(restService.semuaJurusan());
+      return ResponseEntity.ok().body(jurusans);
   }
 
   @GetMapping("/pilih")

@@ -97,7 +97,6 @@ public class HasilController {
   @PostMapping
   @ResponseBody
   public ResponseEntity<Hasil> create(@RequestBody Hasil entity ){
-    Date tanggalSekarang = new Date();
     if(entity.getId()==null){
       UUID uuid = UUID.randomUUID();
       String randomUUIDString = uuid.toString();
@@ -105,25 +104,31 @@ public class HasilController {
       String id = pre.concat(randomUUIDString);
       entity.setId(id);
     }
-      if(tanggalSekarang.before(entity.getSoal().getDueDate()) || tanggalSekarang.compareTo(entity.getSoal().getDueDate()) == 0){
-        entity.setStatus(StatusHasil.Early);
-      } else {
-        entity.setStatus(StatusHasil.Late);
-      }
-      entity.setLastModified(tanggalSekarang);
       restService.simpanHasil(entity);
       return ResponseEntity.ok().body(entity);
   }
 
   @PutMapping("/renewal")
   public ResponseEntity<?> updateOne(@RequestParam("id") String id, @Valid @RequestBody  Hasil entity ){
-    Date tanggalSekarang = new Date();
+    
     Hasil r =restService.pilihHasil(id);
     r.setAttachment(entity.getAttachment());
     r.setIsiJawaban(entity.getIsiJawaban());
     r.setKomentar(entity.getKomentar());
+    r.setStatus(entity.getStatus());
+    r.setLastModified(entity.getLastModified());
     r.setNilai(entity.getNilai());
-    r.setLastModified(tanggalSekarang);
+    r.setTernilai(entity.getTernilai());
+    restService.simpanHasil(r);
+      return ResponseEntity.ok().body("Target terbaru pada id "+ id);
+  }
+
+  @PutMapping("/beriNilai")
+  public ResponseEntity<?> updateNilai(@RequestParam("id") String id, @Valid @RequestBody  Hasil entity ){
+    Date tanggalSekarang = new Date();
+    Hasil r =restService.pilihHasil(id);
+    r.setKomentar(entity.getKomentar());
+    r.setNilai(entity.getNilai());
     r.setTernilai(entity.getTernilai());
     restService.simpanHasil(r);
       return ResponseEntity.ok().body("Target terbaru pada id "+ id);

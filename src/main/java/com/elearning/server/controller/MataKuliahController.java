@@ -1,6 +1,7 @@
 package com.elearning.server.controller;
 
 import com.elearning.server.model.MataKuliah;
+import com.elearning.server.model.MatakuliahList;
 import com.elearning.server.service.MataKuliahService;
 import com.elearning.server.service.manager.MataKuliahManager;
 
@@ -45,8 +46,10 @@ public class MataKuliahController {
     }
     
   @GetMapping("/tampilkan")
-  public ResponseEntity<List< MataKuliah >> findAll(){
-      return ResponseEntity.ok().body(restService.semuaMataKuliah());
+  public ResponseEntity<MatakuliahList> findAll(){
+      MatakuliahList matkuls = new MatakuliahList();
+      matkuls.setMatakuliahList(restService.semuaMataKuliah());
+      return ResponseEntity.ok().body(matkuls);
   }
 
   @GetMapping("/piilh")
