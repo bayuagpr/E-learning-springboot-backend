@@ -10,12 +10,15 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Data;
 import java.util.List;
 
 @Data
 @Entity(name = "com.elearning.server.model.Soal")
 @Table(name = "soal")
+@EntityListeners(AuditingEntityListener.class)
 public class Soal implements Serializable{
   private static final long serialVersionUID = 1L;
 
@@ -34,6 +37,10 @@ public class Soal implements Serializable{
   @Column(name = "due_date", nullable = true)
   @Temporal(TemporalType.TIMESTAMP)
   private Date dueDate;
+  @CreatedDate
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "creation_date", nullable = true)
+  protected Date creationDate;
 //bi-directional many-to-one association to Hasil
 @OneToMany(mappedBy="soal")
 @JsonBackReference(value="hasilSoal")
