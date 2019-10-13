@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HasilRepository extends JpaRepository<Hasil, String>, JpaSpecificationExecutor<Hasil> {
     @Query(
-        value = "SELECT * FROM hasil k where k.id_soal = :id_soal and k.status = :status", 
+        value = "SELECT * FROM hasil k where k.id_soal = :id_soal and k.status = :status ORDER BY last_modified ASC", 
         nativeQuery=true
     )
     public Page<Hasil> findBySoal(@Param("id_soal") String idSoal,@Param("status") String status,Pageable paging);

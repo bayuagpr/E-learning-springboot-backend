@@ -31,7 +31,7 @@ public class Materi implements Serializable{
   private String attachment;
   @CreatedDate
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "creation_date", nullable = true)
+  @Column(name = "creation_date", nullable = false)
   protected Date creationDate;
   //bi-directional many-to-one association to Kela
 	@ManyToOne

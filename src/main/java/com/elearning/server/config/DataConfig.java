@@ -40,7 +40,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableJpaRepositories("com.elearning.server.repository")
 @PropertySource("classpath:application.properties")
-@EnableJpaAuditing
 public class DataConfig {
 
 	private final String PROPERTY_DRIVER = "driver";

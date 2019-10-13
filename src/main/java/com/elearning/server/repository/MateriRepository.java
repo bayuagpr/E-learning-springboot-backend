@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MateriRepository extends JpaRepository<Materi, String>, JpaSpecificationExecutor<Materi> {
     @Query(
-        value = "SELECT * FROM materi k where k.id_class = :id_class", 
+        value = "SELECT * FROM materi k where k.id_class = :id_class ORDER BY creation_date ASC", 
         nativeQuery=true
     )
     public Page<Materi> findByKelas(@Param("id_class") String idKelas,Pageable paging);

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SoalRepository extends JpaRepository<Soal, String>, JpaSpecificationExecutor<Soal> {
     @Query(
-        value = "SELECT * FROM soal k where k.id_class = :id_class", 
+        value = "SELECT * FROM soal k where k.id_class = :id_class ORDER BY creation_date DESC", 
         nativeQuery=true
     )
     public Page<Soal> findByKelas(@Param("id_class") String idKelas,Pageable paging);

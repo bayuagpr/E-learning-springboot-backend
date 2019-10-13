@@ -39,7 +39,7 @@ public class Soal implements Serializable{
   private Date dueDate;
   @CreatedDate
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "creation_date", nullable = true)
+  @Column(name = "creation_date", nullable = false)
   protected Date creationDate;
 //bi-directional many-to-one association to Hasil
 @OneToMany(mappedBy="soal")

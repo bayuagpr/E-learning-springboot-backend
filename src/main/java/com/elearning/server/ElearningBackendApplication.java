@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableConfigurationProperties({
@@ -15,6 +16,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 	HasilStorageProperties.class,
 	SoalStorageProperties.class
 })
+@EnableJpaAuditing(auditorAwareRef = "securityAuditorAware")
 public class ElearningBackendApplication {
 
 	public static void main(String[] args) {
